@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
+    <fullyQualifiedTypeName name="jakarta.annotation.Generated"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Column"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
+    <fullyQualifiedTypeName name="org.springframework.data.repository.CrudRepository"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest"/>
+    <fullyQualifiedTypeName name="org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase"/>
+    <fullyQualifiedTypeName name="org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="com.shopme.admin.user.RoleRepository"/>
+    <fullyQualifiedTypeName name="com.shopme.common.entity.Role"/>
+    <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.domain.EntityScan"/>
+    <fullyQualifiedTypeName name="org.springframework.test.annotation.Rollback"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.Test"/>
+    <fullyQualifiedTypeName name="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
+    <fullyQualifiedTypeName name="org.springframework.data.repository.PagingAndSortingRepository"/>
+</qualifiedTypeNameHistroy>

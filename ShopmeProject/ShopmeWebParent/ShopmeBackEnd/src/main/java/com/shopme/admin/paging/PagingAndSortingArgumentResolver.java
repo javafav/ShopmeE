@@ -1,0 +1,45 @@
+package com.shopme.admin.paging;
+
+import org.springframework.core.MethodParameter;
+import org.springframework.lang.Nullable;
+import org.springframework.web.bind.support.WebDataBinderFactory;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.ModelAndViewContainer;
+
+public class PagingAndSortingArgumentResolver implements HandlerMethodArgumentResolver {
+
+	
+	@Override
+	public boolean supportsParameter(MethodParameter parameter) {
+		
+		return parameter.getParameterAnnotation(PagingAndSortingParam.class) != null;
+	}
+	
+	
+	
+	@Override
+	@Nullable
+	public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer model, NativeWebRequest request,
+			@Nullable WebDataBinderFactory arg3) throws Exception {
+		
+		String  sortDir = request.getParameter("sortDir");
+		String  sortField = request.getParameter("sortField");
+		String  keyword = request.getParameter("keyword");
+		
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+ 
+		
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", reverseSortDir);
+		model.addAttribute("keyword", keyword);
+		
+		PagingAndSortingParam annotation = parameter.getParameterAnnotation(PagingAndSortingParam.class);	
+		return new PagingAndSortingHelper(model , annotation.moduleURL() , annotation.listName() ,
+				sortDir ,sortField ,keyword );
+	}
+
+
+
+}

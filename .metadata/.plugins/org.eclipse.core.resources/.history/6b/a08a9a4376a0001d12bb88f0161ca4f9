@@ -1,0 +1,84 @@
+package com.shopme.admin.user;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+
+import com.shopme.common.entity.Role;
+import com.shopme.common.entity.User;
+
+@Service
+public class UserService {
+@Autowired
+	private UserRepository userRepo;
+@Autowired
+private RoleRepository roleRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+public List<User> listAll(){
+		
+		return (List<User>) userRepo.findAll();
+		
+	}
+public List<Role> getAllRoles(){
+	
+	return (List<Role>) roleRepository.findAll();
+	
+	
+	
+}
+public void save(User user) {
+	encodePassword(user);
+	userRepo.save(user);
+	
+}
+private void encodePassword(User user) {
+	
+	user.setPassword(passwordEncoder.encode(user.getPassword()));
+	
+	
+}
+public boolean isEmailUnique(String email) {
+	
+	
+	//boolean flag= false;
+	
+User user = userRepo.getUserByEmail(email);
+return user==null;
+//if(user==null) {
+//	return true;
+//	
+//}
+//boolean isCreatedNew = (id==null);
+//if(isCreatedNew) {
+//	
+//	return true;
+//	
+//}
+//if(user.getId() != id) {
+//	return false
+//}
+
+}
+public User getUserById(Integer id) throws UserNotFoundException {
+	
+	try {
+		User user = userRepo.findById(id).get();
+		return user;
+	} catch (NoSuchElementException e) {
+		throw  new UserNotFoundException("No User Exist with Given Id"+id);
+	
+	}
+	
+}
+
+
+
+
+	
+}

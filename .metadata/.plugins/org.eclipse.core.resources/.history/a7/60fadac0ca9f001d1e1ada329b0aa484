@@ -1,0 +1,50 @@
+package com.shopme.admin.user;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+
+import com.shopme.common.entity.Role;
+import com.shopme.common.entity.User;
+
+@Service
+public class UserService {
+@Autowired
+	private UserRepository userRepo;
+@Autowired
+private RoleRepository roleRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+public List<User> listAll(){
+		
+		return (List<User>) userRepo.findAll();
+		
+	}
+public List<Role> getAllRoles(){
+	
+	return (List<Role>) roleRepository.findAll();
+	
+	
+	
+}
+public void save(User user) {
+	encodePassword(user);
+	userRepo.save(user);
+	
+}
+private void encodePassword(User user) {
+	
+	user.setPassword(passwordEncoder.encode(user.getPassword()));
+	
+	
+}
+
+
+
+
+	
+}
