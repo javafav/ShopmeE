@@ -89,21 +89,33 @@ public class AddressRepositoryTests {
 //	@Test
 //	public void testSetDeafulat() {
 //		
-//		Integer addressId = 6 ;
+//		Integer addressId = 3 ;
 //		repo.setDeafulatAddress(addressId);
 //		Address address = repo.findById(addressId).get();
 //		assertThat(address.isDefaultForShipping()).isTrue();
 //	}
-//	
+	
 //	@Test
-//	public void tesSetNotDeafulat() {
+//	public void testSetNotDeafulat() {
 //		
-//		Integer addressId = 6 ;
-//		Integer customerId = 42;
+//		Integer addressId = 19 ;
+//	    Integer customerId = 16;
+////		repo.setNonDefaultForOthers(addressId, customerId);
+//		
+//		if(addressId > 0) {
+//			repo.setDeafulatAddress(addressId);	
+//		}
+//		
 //		repo.setNonDefaultForOthers(addressId, customerId);
-//		
+//		Address address = repo.findDefaultByCustomer(16);
+//		System.out.println(address);
 //	}
-//	
+//   
+	
+
+		
+	
+	
 	@Test
 	public void testGetDefault() {
 		Integer customerId = 16;

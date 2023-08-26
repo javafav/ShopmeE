@@ -4,6 +4,7 @@ package com.shopme.admin.order;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.order.Order;
 import com.shopme.common.entity.order.OrderDetail;
 import com.shopme.common.entity.order.OrderStatus;
+import com.shopme.common.entity.order.OrderTrack;
 import com.shopme.common.entity.order.PaymentMethod;
 import com.shopme.common.entity.product.Product;
 
@@ -154,6 +156,39 @@ public class OrderRepositoryTests {
 		
 		Optional<Order> result = repo.findById(orderId);
 		assertThat(result).isNotPresent();
+	}
+
+
+	@Test
+	public void testUpdateOrderTrack() {
+		int orderId = 6 ;
+		Order order = repo.findById(orderId).get();
+		OrderTrack newTrack = new OrderTrack();
+		newTrack.setOrder(order);
+		newTrack.setUpdatedTime(new Date());
+	    newTrack.setStatus(OrderStatus.NEW);
+	    newTrack.setNotes(OrderStatus.NEW.defaultDescription());
+	   
+	    List<OrderTrack> orderTRacks = order.getOrderTracks();
+	
+	    orderTRacks.add(newTrack);
+	    Order updatedOrder = repo.save(order);
+	    
+	    
+	    
+//	    int neworderId = 22 ;
+//		Order newOrder = repo.findById(neworderId).get();
+//		OrderTrack newTrackOrder = new OrderTrack();
+//		newTrack.setOrder(newOrder);
+//		newTrack.setUpdatedTime(new Date());
+//	    newTrack.setStatus(OrderStatus.PROCESSING);
+//	    newTrack.setNotes(OrderStatus.PROCESSING.defaultDescription());
+//	   
+//	    List<OrderTrack> newOrderTracks = order.getOrderTracks();
+//	
+//	    newOrderTracks.add(newTrackOrder);
+//	    Order newUpdatedOrder = repo.save(order);
+	   // assertThat(updatedOrder.getOrderTracks()).hasSize(1);
 	}
 }
 

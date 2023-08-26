@@ -67,10 +67,13 @@ public class ShoppingCartService {
 	}
 	public void removeProduct(Integer productId ,Integer customerId) {
 		cartRepo.deleteByCustomerAndProduct(productId, customerId);
-	    System.out.println("Product Id " + productId + "  Customer Id" + customerId);
+	   // System.out.println("Product Id " + productId + "  Customer Id" + customerId);
 	}
 	
-	
+	public void deleteByCustomer(Customer customer) {
+		
+	   cartRepo.deleteByCustomer(customer.getId());
+	}
 	
 	
 	

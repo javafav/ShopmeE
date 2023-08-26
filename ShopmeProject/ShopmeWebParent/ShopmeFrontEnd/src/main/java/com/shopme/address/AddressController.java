@@ -28,16 +28,19 @@ public class AddressController {
   public String showAddressBook(Model model ,HttpServletRequest request) {
 	  Customer customer = getAuthenticatedCustomer(request);
 	  List<Address> listAddresses = addressService.listAddressBook(customer);
+	 
 	  boolean usePrimaryAddressDefault = true;
 	  for(Address address: listAddresses){
-		  if(address.isDefaultForShipping()) {
+		  if(address.isDefaultForShipping()== true) {
 			  usePrimaryAddressDefault = false;
 			break;
 		  }
 		  
 	  }
-	  model.addAttribute("listAddresses", listAddresses);
+	
+	model.addAttribute("listAddresses", listAddresses);
 	  model.addAttribute("customer", customer);
+
 	  model.addAttribute("usePrimaryAddressDefault", usePrimaryAddressDefault);
 	  return "address_book/addresses" ;
   }
@@ -64,9 +67,15 @@ public class AddressController {
 		address.setCustomer(customer);
 		addressService.save(address);
 		
+		String redirectOption = request.getParameter("redirect");
+		String redirectURL = "redirect:/address_book";
+		
+		if ("checkout".equals(redirectOption)) {
+			redirectURL += "?redirect=checkout";
+		} 
 		ra.addFlashAttribute("message", "The address has been saved successfully.");
 		
-		return "redirect:/address_book";
+		return redirectURL;
 	}
 	
 	@GetMapping("/address_book/edit/{id}")
@@ -106,7 +115,7 @@ public class AddressController {
 		
 		if ("cart".equals(redirectOption)) {
 			redirectURL = "redirect:/cart";
-		} else {
+		} else if ("checkout".equals(redirectOption)) {
 			redirectURL = "redirect:/checkout";
 		}
 		

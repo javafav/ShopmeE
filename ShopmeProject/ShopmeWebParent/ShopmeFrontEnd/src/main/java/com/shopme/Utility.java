@@ -1,5 +1,7 @@
 package com.shopme;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import com.shopme.security.oauth.CustomerOAuth2User;
+import com.shopme.setting.CurrencySettingBag;
 import com.shopme.setting.EmailSettingBag;
 
 public class Utility {
@@ -55,5 +58,35 @@ public class Utility {
 	    }
 	return customerEmail;
 	}
+	
+	public static String formatCurrency(float amount ,CurrencySettingBag setting) {
+		
+		String symbol = setting.getSymbol();
+		String symbolPostion = setting.getSymbolPostion();
+		String decimalPointType = setting.getDecimalPointType();
+	    String thousnadPointType = setting.getThousnadPointType();
+		int decimalDigits = setting.getDecimalDigits();
+		
+		
+		String pattren = symbolPostion.equals("Before price") ? symbol : "";
+		pattren +="###,###";
+		
+		if(decimalDigits>0) {
+			pattren += "." ;
+			for(int count=1 ; count <=decimalDigits ; count++) pattren+="#";
+				
+			
+		}
+		 pattren += symbolPostion.equals("After price") ? symbol : "";
+
+		char thousandSepartor = thousnadPointType.equals("POINT") ? '.' :',' ;
+		char decimalSepartor = thousnadPointType.equals("POINT") ? '.' :',' ;
+		DecimalFormatSymbols decimalFormatSymbols = DecimalFormatSymbols.getInstance();
+		decimalFormatSymbols.setDecimalSeparator(decimalSepartor);
+		decimalFormatSymbols.setGroupingSeparator(thousandSepartor);
+		DecimalFormat formatter = new DecimalFormat(pattren , decimalFormatSymbols);
+		return formatter.format(amount);
+	}
+
 	
 }

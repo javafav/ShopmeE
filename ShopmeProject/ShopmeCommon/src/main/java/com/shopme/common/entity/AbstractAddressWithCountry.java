@@ -16,7 +16,7 @@ public class AbstractAddressWithCountry extends AbstractAddress {
 		return country;
 	}
 
-	public void setCountry(Country country) {
+	public void setCountry(	Country country) {
 		this.country = country;
 	}
 	

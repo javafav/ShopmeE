@@ -48,13 +48,13 @@
 				  </div>
 				  <div class="tab-pane" id="states" role="tabpanel">
 				  	  
-				  <div th:replace="settings/states :: content" />
+				  <div th:replace="settings/states :: content" ></div> 
 				 
 				  </div>
 				  <div class="tab-pane p-3" id="mailServer" role="tabpanel">
 				  	
 				  
-				 <div th:replace="settings/mail_server :: content" />
+				 <div th:replace="settings/mail_server :: content" ></div>
 				  		
 				  </div>
 				  <div class="tab-pane p-3" id="mailTemplate" role="tabpanel">
@@ -62,8 +62,7 @@
 				
 				  </div>
 				   <div class="tab-pane p-3" id="payment" role="tabpanel">
-				  
-				 Payments
+				     <div th:replace="settings/payment :: content" ></div> 
 				  </div>
 				
 			</div>	
@@ -93,6 +92,8 @@ var csrfValue = "[[${_csrf.token}]]";
 
 $(document).ready(function(){
 	$("#customerVerificationContent").richText();
+	$("#orderConfirmationContent").richText({height :400});
+
 });
 
 </script>

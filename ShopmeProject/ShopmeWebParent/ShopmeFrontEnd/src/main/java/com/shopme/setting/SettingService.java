@@ -2,36 +2,57 @@ package com.shopme.setting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shopme.common.entity.Currency;
 import com.shopme.common.entity.setting.Setting;
 import com.shopme.common.entity.setting.SettingCategory;
 
 @Service
 public class SettingService {
 
-	@Autowired private SettingRepository repo;
-	
+	@Autowired private SettingRepository settingRepo;
+	@Autowired private CurrencyRepository currencyRepo;
 
 
 public List<Setting> getGeneralSetting() {
 
 
-	return repo.findByTwoCategories(SettingCategory.CURRENCY, SettingCategory.GENERAL);
+	return  settingRepo.findByTwoCategories(SettingCategory.CURRENCY, SettingCategory.GENERAL);
 	
 	
 	
 }
 
 public EmailSettingBag getEmailSetting() {
- List<Setting> setting = repo.findByCategory(SettingCategory.MAIL_SERVER);
- setting.addAll(repo.findByCategory(SettingCategory.MAIL_TEMPLATES));
+ List<Setting> setting =  settingRepo.findByCategory(SettingCategory.MAIL_SERVER);
+ setting.addAll( settingRepo.findByCategory(SettingCategory.MAIL_TEMPLATES));
 
  return new  EmailSettingBag(setting);
 }
 
+public CurrencySettingBag getCurrencySettings() {
+	List<Setting> settings =  settingRepo.findByCategory(SettingCategory.CURRENCY);
+	
+	
+	return new CurrencySettingBag(settings);
+}
 
+ public PaymentSettingBag getPaymentSettings() {
+	 List<Setting> settings =  settingRepo.findByCategory(SettingCategory.PAYMENT);
+	 
+	 return new PaymentSettingBag(settings);
+ }
 
+ public String getCurrencyCode() {
+	Setting setting = settingRepo.findByKey("CURRENCY_ID");
+	int currencyId = Integer.parseInt(setting.getValue());
+	Currency currency = currencyRepo.findById(currencyId).get();
+	return currency.getCode();
+ }
+ 
+ 
 }

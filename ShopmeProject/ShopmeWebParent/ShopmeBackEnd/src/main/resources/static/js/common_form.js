@@ -1,5 +1,5 @@
 var dropdownCountries;
-	var dropdownStates;
+var dropdownStates;
 
 $(document).ready(function() {
 		

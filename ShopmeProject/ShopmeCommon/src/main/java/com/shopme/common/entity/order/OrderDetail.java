@@ -1,9 +1,7 @@
 package com.shopme.common.entity.order;
 
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,6 +27,7 @@ public class OrderDetail  extends IdBasedEntity {
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private Order order;
+    
 
 
 
@@ -87,6 +86,9 @@ public class OrderDetail  extends IdBasedEntity {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+
+
+	
 	
 	
 }

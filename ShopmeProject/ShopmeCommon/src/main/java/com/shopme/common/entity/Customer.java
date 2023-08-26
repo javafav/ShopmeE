@@ -120,7 +120,20 @@ public class Customer  extends AbstractAddressWithCountry {
 		return firstName + " " + lastName;
 	}
 	
-
+	public Address copyAddressFromCustomer(Customer customer) {
+		Address address = new Address();
+		
+		address.setFirstName(customer.getFirstName());
+		address.setLastName(customer.getLastName());
+		address.setPhoneNumber(customer.getPhoneNumber());
+		address.setAddressLine1(customer.getAddressLine1());
+		address.setAddressLine2(customer.getAddressLine2());
+		address.setCity(customer.getCity());
+		//setCountry(customer.getCountry().getName());
+		address.setPostalCode(customer.getPostalCode());
+		address.setState(customer.getState());
+		return address ;
+	}
 	
 		
 }
