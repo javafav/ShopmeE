@@ -1,6 +1,7 @@
 package com.shopme.admin.order;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +17,7 @@ import com.shopme.admin.paging.PagingAndSortingParam;
 import com.shopme.admin.setting.SettingService;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.order.Order;
+import com.shopme.common.entity.order.OrderDetail;
 import com.shopme.common.entity.setting.Setting;
 import com.shopme.common.exception.OrderNotFoundException;
 
@@ -85,8 +87,10 @@ public class OrderController {
 			Order order = orderService.get(id);;
 			
 			List<Country> listCountries = orderService.listAllCountries();
+		
 			
-			model.addAttribute("pageTitle", "Edit Order (ID: " + id + ")");
+			
+		model.addAttribute("pageTitle", "Edit Order (ID: " + id + ")");
 			model.addAttribute("order", order);
 			model.addAttribute("listCountries", listCountries);
 			

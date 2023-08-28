@@ -122,11 +122,11 @@ public class CheckoutController {
 		System.out.println(customer.toString());
 	
 		Address defaultAddress = addressService.getDefaultAddress(customer);
-		System.out.println(defaultAddress);
+		
 		
 		ShippingRate shippingRate = null;
 		
-		shippingRate =  shipService.getShippingRateForAddress(defaultAddress);
+		//shippingRate =  shipService.getShippingRateForAddress(defaultAddress);
 		
 		
 		if (defaultAddress == null ) {

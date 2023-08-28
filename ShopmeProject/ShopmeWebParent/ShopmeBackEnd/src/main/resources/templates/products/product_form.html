@@ -148,13 +148,22 @@
 
 </body>
 <script type="text/javascript">
-
+	
+	
+	$(document).ready(function() {
+		$('#buttonCancel').click(function() { 
+			window.location = "[[@{/products}]]";	
+		});
+		
+	});
+</script>
+<script type="text/javascript">
+    contextPath = "[[@{/}]]";
 	moduleURL = "[[@{/products}]]";
 	moduleBrandURL = "[[@{/brands}]]"
 	MAX_FILE_SIZE = 502400 //500 kb
 	defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
 </script>
-<script th:src="@{/js/common_form.js}"></script>
 <script th:src="@{/js/proudct_form_overview.js}"></script>
 <script th:src="@{/js/proudct_form_images.js}"></script>
 <script th:src="@{/js/product_form_details.js}"></script>
