@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/brands/**").hasAnyAuthority("Admin","Editor")
 		
 		
-		.antMatchers( "/products/new"  , "/products/delete/**")
+		.antMatchers( "/products/new" , "/products/delete/**")
 		.hasAnyAuthority("Admin", "Editor")
 		
 		
@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		.antMatchers("/products/**").hasAnyAuthority("Admin", "Editor" )
 	
-		.antMatchers("/customers/**").hasAnyAuthority("Admin","Salesperson")
+		.antMatchers("/customers/**" , "/get_shipping_cost").hasAnyAuthority("Admin","Salesperson")
 		.antMatchers("/shipping/**").hasAnyAuthority("Admin","Salesperson")
 		.antMatchers("/orders/**").hasAnyAuthority("Admin","Salesperson" , "Shipper")
 		.antMatchers("/reports/**").hasAnyAuthority("Admin","Salesperson")
@@ -83,8 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
            .rememberMe().key("aBVefdddfdfddfdfdf1234648769")
            .tokenValiditySeconds(7 * 24 * 60 * 60);
 		
-		
-		
+		http.headers().frameOptions().sameOrigin();
 	}
 
 	@Override

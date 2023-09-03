@@ -14,6 +14,7 @@ import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.order.Order;
 import com.shopme.common.entity.order.OrderDetail;
 import com.shopme.common.entity.order.OrderStatus;
+import com.shopme.common.entity.order.OrderTrack;
 import com.shopme.common.entity.order.PaymentMethod;
 import com.shopme.common.entity.product.Product;
 
@@ -64,7 +65,13 @@ public class OrderService {
 			
 			orderDetails.add(orderDetail);
 		}
+		OrderTrack track = new OrderTrack();
+		track.setOrder(newOrder);
+		track.setStatus(OrderStatus.NEW);
+		track.setNotes(OrderStatus.NEW.defaultDescription());
+		track.setUpdatedTime(new Date());
 		
+		newOrder.getOrderTracks().add(track);
 		
 		return repo.save(newOrder);
 		

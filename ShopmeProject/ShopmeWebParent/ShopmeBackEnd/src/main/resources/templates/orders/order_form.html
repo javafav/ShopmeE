@@ -9,7 +9,7 @@
 		<h2>Manage Orders | [[${pageTitle}]]</h2>
 	</div>
 		
-	<form th:action="@{/order/save}" th:object="${order}" method="post">
+	<form th:action="@{/order/save}" th:object="${order}" method="post" onsubmit="return processFormBeforeSubmit();">
 	<input type="hidden" th:field="*{id}" />
 	<div>
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -40,7 +40,7 @@
 		  </div>
 		  
 		  <div class="tab-pane fade p-3" id="track" role="tabpanel">
-			<h2>Edit Order Tracking</h2>						  	 
+			<div th:replace="orders/order_form_tracks :: content"></div>
 		  </div>
 		 </div>
 	</div>
@@ -53,6 +53,7 @@
 	</form>
 	
 	<div th:replace="modal_fragments :: modal_dialog"></div>
+	<div th:replace="orders/add_product_modal :: content" ></div>
 		
 	<div th:replace="fragments :: footer">Static footer</div>
 </div>	
@@ -60,6 +61,9 @@
 <script th:src="@{/js/jquery.number.min.js}"></script>
 
 <script type="text/javascript">
+var csrfHeaderName = "[[${_csrf.headerName}]]";
+var csrfValue = "[[${_csrf.token}]]";
+	
 	contextPath = "[[@{/}]]";
 	
 	$(document).ready(function() {
@@ -73,6 +77,10 @@
 <script th:src="@{/js/order_form_overview_products.js}"></script>
 <script th:src="@{/js/common_form.js}"></script>
 <script th:src="@{/js/common_form_country_state.js}"></script>
+<script th:src="@{/js/order_form_add_product.js}"></script>
+<script th:src="@{/js/order_form_remove_product.js}"></script>
+<script th:src="@{/js/order_form_tracks.js}"></script>
+
 
 
 

@@ -67,11 +67,17 @@ public class CheckoutInfo {
 	public void setCodSupported(boolean codSupported) {
 		this.codSupported = codSupported;
 	}
+	public void setDeliverDate(Date deliverDate) {
+		this.deliverDate = deliverDate;
+	}
 	
-public String getPaymentTotal4PayPal() {
-	
-	DecimalFormat formatter = new DecimalFormat("###,###.##");
-	return formatter.format(paymentTotal);
+    
+	public String getPaymentTotal4PayPal() {
 
-	}	
+		DecimalFormat formatter = new DecimalFormat("###.##");
+		return formatter.format(paymentTotal);
+
+	}
+
+	
 }

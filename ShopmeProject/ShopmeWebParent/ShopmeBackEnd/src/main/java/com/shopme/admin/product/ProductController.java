@@ -20,6 +20,8 @@ import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.brand.BrandService;
 
 import com.shopme.admin.category.CategoryService;
+import com.shopme.admin.paging.PagingAndSortingHelper;
+import com.shopme.admin.paging.PagingAndSortingParam;
 import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
@@ -28,7 +30,8 @@ import com.shopme.common.exception.ProductNotFoundException;
 
 @Controller
 public class ProductController {
-	
+	private String defaultRedirectURL = "redirect:/products/page/1?sortField=name&sortDir=asc&categoryId=0";
+
 
 	@Autowired
 	private ProductService productService;
@@ -39,10 +42,15 @@ public class ProductController {
 	@Autowired
 	private CategoryService categoryService;
 
+//	@GetMapping("/products")
+//	public String lisFirstPage(Model model) {
+//
+//		return listPageByProduct(1, model, "name", "asc", null , 0);
+//	}
+	
 	@GetMapping("/products")
-	public String lisFirstPage(Model model) {
-
-		return listPageByProduct(1, model, "name", "asc", null , 0);
+	public String listFirstPage(Model model) {
+		return defaultRedirectURL;
 	}
 
 	@GetMapping("/products/new")
@@ -160,6 +168,8 @@ public class ProductController {
 			model.addAttribute("product", product);
 			model.addAttribute("listBrands", listBrands);
 			model.addAttribute("pageTitle", " Edit Product (ID " + id + " )");
+			
+
 
 			return "products/product_form";
 		} catch (ProductNotFoundException ex) {
@@ -189,47 +199,64 @@ public class ProductController {
 
 	}
 
-	@GetMapping("products/page/{pageNum}")
-
-	public String listPageByProduct(@PathVariable int pageNum,
-			Model model, 
-			@Param("sortField") String sortField,
-			@Param("sortDir") String sortDir,
-			@Param("keyword") String keyword ,
-			@Param("categoryId") Integer categoryId) {
-
+//	@GetMapping("products/page/{pageNum}")
+//
+//	public String listPageByProduct(@PathVariable int pageNum,
+//			Model model, 
+//			@Param("sortField") String sortField,
+//			@Param("sortDir") String sortDir,
+//			@Param("keyword") String keyword ,
+//			@Param("categoryId") Integer categoryId) {
+//
+//		
+//
+//		Page<Product> pages = productService.listByPage(pageNum, sortField, sortDir, keyword , categoryId);
+//		List<Product> listProducts = pages.getContent();
+//        List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+//		long startCount = (pageNum - 1) * BrandService.BRANDS_PER_PAGE + 1;
+//     
+//		long endCount = startCount + BrandService.BRANDS_PER_PAGE;
+//		if (endCount > pages.getTotalElements()) {
+//
+//			endCount = pages.getTotalElements();
+//		}
+//		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+//
+//		// listUsers.forEach(user ->System.out.println(user));
+//		if(categoryId != null) model.addAttribute("categoryId", categoryId);
+//		
+//		
+//		model.addAttribute("startCount", startCount);
+//		model.addAttribute("endCount", endCount);
+//		model.addAttribute("totalItems", pages.getTotalElements());
+//		model.addAttribute("listProducts", listProducts);
+//		model.addAttribute("listCategories", listCategories);
+//		model.addAttribute("currentPage", pageNum);
+//		model.addAttribute("totalPages", pages.getTotalPages());
+//		model.addAttribute("sortField", sortField);
+//		model.addAttribute("sortDir", sortDir);
+//		model.addAttribute("reverseSortDir", reverseSortDir);
+//		model.addAttribute("keyword", keyword);
+//		model.addAttribute("moduleURL", "/products");
+//		return "products/products";
+//
+//	}
+	@GetMapping("/products/page/{pageNum}")
+	public String listByPage(
+			@PagingAndSortingParam(listName = "listProducts", moduleURL = "/products") PagingAndSortingHelper helper,
+			@PathVariable(name = "pageNum") int pageNum, Model model,
+			Integer categoryId
+			) {
 		
-
-		Page<Product> pages = productService.listByPage(pageNum, sortField, sortDir, keyword , categoryId);
-		List<Product> listProducts = pages.getContent();
-        List<Category> listCategories = categoryService.listCategoriesUsedInForm();
-		long startCount = (pageNum - 1) * BrandService.BRANDS_PER_PAGE + 1;
-     
-		long endCount = startCount + BrandService.BRANDS_PER_PAGE;
-		if (endCount > pages.getTotalElements()) {
-
-			endCount = pages.getTotalElements();
-		}
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-
-		// listUsers.forEach(user ->System.out.println(user));
-		if(categoryId != null) model.addAttribute("categoryId", categoryId);
+		productService.listByPage(pageNum, helper, categoryId);
 		
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
 		
-		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);
-		model.addAttribute("totalItems", pages.getTotalElements());
-		model.addAttribute("listProducts", listProducts);
+		if (categoryId != null) model.addAttribute("categoryId", categoryId);
 		model.addAttribute("listCategories", listCategories);
-		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("totalPages", pages.getTotalPages());
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("reverseSortDir", reverseSortDir);
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("moduleURL", "/products");
-		return "products/products";
-
+		
+		return "products/products";		
 	}
+	
 
 }
