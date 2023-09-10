@@ -6,6 +6,7 @@
 <div class="container-fluid">
              <div th:replace="navigation ::header_menu"></div>
                <div th:replace="navigation :: search_nav"></div>
+	   
 	   <div class="text-center border border-secondary rounded m-3 p-3">
      	    <div>
      	    <h2>Your Order has been Completed!</h2>
@@ -23,6 +24,16 @@
       </div>
 </div>
 </body>
+<script type="text/javascript">
+contextPath ="[[@{/}]]";
 
 
+
+var csrfHeaderName = "[[${_csrf.headerName}]]";
+var csrfValue = "[[${_csrf.token}]]";
+
+
+</script>
+<script type="text/javascript" th:src="@{/js/jquery.number.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/shopping_cart_items_count.js}"></script>
 </html>

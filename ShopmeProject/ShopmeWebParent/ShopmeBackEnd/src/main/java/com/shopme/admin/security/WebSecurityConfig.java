@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 		//.antMatchers("/images/**","/js/**","/webjars/**").permitAll()
 	
-		
+		.antMatchers("/states/list_by_country/**").hasAnyAuthority("Admin", "Salesperson")
 		.antMatchers("/users/**").hasAuthority("Admin")
 		.antMatchers("/categories/**").hasAnyAuthority("Admin","Editor")
 		.antMatchers("/brands/**").hasAnyAuthority("Admin","Editor")
@@ -57,10 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		
 		.antMatchers("/products/**").hasAnyAuthority("Admin", "Editor" )
-	
+		                                                        
+		.antMatchers("/orders", "/orders/", "/orders/page/**", "/orders/detail/**").hasAnyAuthority("Admin","Salesperson" ,"Shipper")
+
 		.antMatchers("/customers/**" , "/get_shipping_cost").hasAnyAuthority("Admin","Salesperson")
 		.antMatchers("/shipping/**").hasAnyAuthority("Admin","Salesperson")
-		.antMatchers("/orders/**").hasAnyAuthority("Admin","Salesperson" , "Shipper")
+		.antMatchers("/orders_shipper/update/**").hasAuthority("Shipper")
+		.antMatchers("/orders/**").hasAnyAuthority("Admin","Salesperson" )
 		.antMatchers("/reports/**").hasAnyAuthority("Admin","Salesperson")
 		.antMatchers("/articles/**").hasAnyAuthority("Admin", "Editor")
 		.antMatchers("/menus/**").hasAnyAuthority("Admin", "Editor")

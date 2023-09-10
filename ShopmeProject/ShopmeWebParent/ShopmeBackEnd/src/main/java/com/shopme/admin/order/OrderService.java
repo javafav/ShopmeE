@@ -1,5 +1,6 @@
 package com.shopme.admin.order;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -14,11 +15,13 @@ import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.setting.country.CountryRepository;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.order.Order;
+import com.shopme.common.entity.order.OrderStatus;
+import com.shopme.common.entity.order.OrderTrack;
 import com.shopme.common.exception.OrderNotFoundException;
 
 @Service
 public class OrderService {
-	private static final int ORDERS_PER_PAGE = 10;
+	private static final int ORDERS_PER_PAGE = 7;
 	
 	@Autowired private OrderRepository orderRepo;
 	@Autowired private CountryRepository countryRepo;
@@ -80,4 +83,25 @@ public class OrderService {
 		
 		
 	}	
+	
+	public void updateStatus(Integer orderId, String status) {
+		
+		Order orderInDb = orderRepo.findById(orderId).get();
+		OrderStatus statusToUpdate = OrderStatus.valueOf(status);
+		if(!orderInDb.hasStatus(statusToUpdate)) {
+		
+		List<OrderTrack> orderTracks = orderInDb.getOrderTracks();	
+		OrderTrack track = new OrderTrack();
+		track.setOrder(orderInDb);
+		track.setStatus(statusToUpdate);
+		track.setUpdatedTime(new Date());
+		track.setNotes(statusToUpdate.defaultDescription());
+		
+		orderTracks.add(track);
+		orderInDb.setStatus(statusToUpdate);
+		
+		orderRepo.save(orderInDb);
+		}
+	
+	}
 }

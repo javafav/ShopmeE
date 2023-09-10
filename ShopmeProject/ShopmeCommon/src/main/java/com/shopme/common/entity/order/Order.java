@@ -238,16 +238,96 @@ public class Order extends AbstractAddress {
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		return dateFormatter.format(this.deliverDate);
 	}
-	
-	public void setDeliverDateOnForm(String datString ) {
-		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-	try {
-		this.deliverDate = dateFormatter.parse(datString);
-	} catch (ParseException e) {
-	
-		e.printStackTrace();
-	}
 
+	public void setDeliverDateOnForm(String datString) {
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.deliverDate = dateFormatter.parse(datString);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+	@Transient
+	public String getRecipientName() {
+     String name = firstName;
+		
+		if (lastName != null && !lastName.isEmpty()) name += " " + lastName;
+		return name;
+	}
+	
+	@Transient
+	public String getRecipientAddress() {
+		String address = addressLine1;
+	
+		
+		if (addressLine2 != null && !addressLine2.isEmpty()) address += ", " + addressLine2;
+		
+		if (!city.isEmpty()) address += ", " + city;
+		
+		if (state != null && !state.isEmpty()) address += ", " + state;
+		
+		address += ", " + country;
+		
+		if (!postalCode.isEmpty()) address += ". : " + postalCode;
+	
+		
+		return address;
+	}
+	
+	@Transient
+	public boolean isCOD() {
+		return paymentMethod.equals(PaymentMethod.COD);
+		
+	}
+	
+	@Transient
+	public boolean isPicked() {
+		return hasStatus(OrderStatus.PICKED);
+	}
+	@Transient
+	public boolean isShipping() {
+		return hasStatus(OrderStatus.SHIPPING);
+	}
+	
+	@Transient
+	public boolean isDelivered() {
+		return hasStatus(OrderStatus.DELIVERED);
+	}
+	@Transient
+	public boolean isReturned() {
+		return hasStatus(OrderStatus.RETURNED);
+	}
+	
+	@Transient
+	public boolean isReturnRequested() {
+		return hasStatus(OrderStatus.RETURN_REQUESTED);
+	}
+	@Transient
+	public boolean isProcessing() {
+		return hasStatus(OrderStatus.PROCESSING);
+	}
+	
+	public boolean hasStatus(OrderStatus status) {
+		for(OrderTrack aTrack :orderTracks) {
+			if(aTrack.getStatus().equals(status)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Transient
+	public String getProductNames() {
+		String productName= "";
+		
+		productName ="<ul>";
+		for(OrderDetail orderDetail : orderDetails) {
+			productName ="<li>" + orderDetail.getProduct().getShortName() + "</>";	
+			
+		}
+		return productName;	 
 		
 	}
 }

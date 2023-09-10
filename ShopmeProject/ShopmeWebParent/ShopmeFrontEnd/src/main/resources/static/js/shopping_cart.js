@@ -1,172 +1,182 @@
 decimalSeparator = decimalPointType == 'COMMA' ? ',' : '.';
 thousandsSeparator = thousandsPointType == 'COMMA' ? ',' : '.';
+var cartItem ;
 
-$(document).ready(function(){
-		
-	$(".linkMinus").on("click" ,function(evt){
+$(document).ready(function() {
+	
+	cartItem = $("#cartItems");
+	 totalCartItem();
+	$(".linkMinus").on("click", function(evt) {
 		evt.preventDefault();
-	     decreseQuantiy($(this));
-	   
+		decreseQuantiy($(this));
+
 	});
-	
-	$(".linkPlus").on("click" ,function(evt){
+
+	$(".linkPlus").on("click", function(evt) {
 		evt.preventDefault();
-	    increseQuantity($(this));
-	    
+		increseQuantity($(this));
+
 	});
-		$(".linkReomve").on("click" ,function(evt){
+	$(".linkReomve").on("click", function(evt) {
 		evt.preventDefault();
-	  url =   $(this).attr("href");
-removeProduct($(this));
-
-	});
-		
+		url = $(this).attr("href");
+		removeProduct($(this));
 
 	});
 	
-	
-	
-	function removeProduct (link){
-		 url =link.attr("href");
-       
-		 
-		$.ajax({
-			type: "GET",
-			url: url,
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader(csrfHeaderName, csrfValue);
-			}
-		}).done(function(response) {
 
 
-			rowNumber = link.attr("rowNumber")
-			removeProductHTML(rowNumber);
-			updateTotal();
-			showModalDialog("Shopping Cart", response);
-			updateCountNumber();
-			totalCartItem();
-		}).fail(function() {
-			showErrorModal("Error while  remoivng product");
-		});
-		
-	}
-	
-	function updateCountNumber(){
-		
-	$(".divCount").each(function(index ,element){
-		
-		element.innerHTML = "" + (index+1);
+});
+
+
+
+function removeProduct(link) {
+	url = link.attr("href");
+
+
+	$.ajax({
+		type: "GET",
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName, csrfValue);
+		}
+	}).done(function(response) {
+
+
+		rowNumber = link.attr("rowNumber")
+		removeProductHTML(rowNumber);
+		updateTotal();
+		showModalDialog("Shopping Cart", response);
+		updateCountNumber();
+		totalCartItem();
+	}).fail(function() {
+		showErrorModal("Error while  remoivng product");
 	});
-	}
-	
-	function removeProductHTML(rowNumber){
-		$("#row" +rowNumber).remove();
-		$("#blankLine" +rowNumber).remove();
 
-	}
-	function decreseQuantiy(link){
+}
+
+function updateCountNumber() {
+
+	$(".divCount").each(function(index, element) {
+
+		element.innerHTML = "" + (index + 1);
+	});
+}
+
+function removeProductHTML(rowNumber) {
+	$("#row" + rowNumber).remove();
+	$("#blankLine" + rowNumber).remove();
+
+}
+function decreseQuantiy(link) {
 	productId = link.attr("pid");
 	qunatityInput = $("#quantity" + productId)
 	newQuantity = parseInt(qunatityInput.val()) - 1;
-	if(newQuantity > 0){
-		qunatityInput.val(newQuantity)
-		updateQuantity(productId , newQuantity);
-    totalCartItem();
-	}else{
-	showWarningModal("Minmum Quantity is 1")
-	}
-	}
 	
-	function increseQuantity(link){
-		productId = link.attr("pid");
+	if (newQuantity > 0) {
+		qunatityInput.val(newQuantity)
+		updateQuantity(productId, newQuantity);
+		
+		
+	} else {
+		showWarningModal("Minmum Quantity is 1")
+	}
+}
+
+function increseQuantity(link) {
+	productId = link.attr("pid");
 	qunatityInput = $("#quantity" + productId)
 	newQuantity = parseInt(qunatityInput.val()) + 1;
-	if(newQuantity < 6){
+	
+	if (newQuantity < 6) {
 		qunatityInput.val(newQuantity)
-		updateQuantity(productId , newQuantity);
-		totalCartItem();
-	}else{
-	showWarningModal("Maximum Quantity is 5")
-	}
-	}
-	
-	function updateQuantity(productId , quantity){
+		updateQuantity(productId, newQuantity);
 		
-		 url = contextPath + "cart/update/" +  productId + "/" + quantity;
+	} else {
+		showWarningModal("Maximum Quantity is 5")
+	}
+}
 
-		
-		$.ajax({
-			type: "POST",
-			url: url,
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader(csrfHeaderName, csrfValue);
-			}
-		}).done(function(updatedSubtoal) {
+function updateQuantity(productId, quantity) {
 
-			updateSubtotal(updatedSubtoal , productId);
-		    updateTotal();
-		
-		}).fail(function() {
-			showErrorModal("Error while  updated product quantity")
-		});
-	}
-	
-	
-	
-	function updateSubtotal(updatedSubtoal , productId){
+	url = contextPath + "cart/update/" + productId + "/" + quantity;
 
-		$("#subtotal" + productId).text(formatCurrency(updatedSubtoal));
-	}
-	
-	function updateTotal(){
-		
-		var total = 0.0;
-		prodcutCount = 0;
-		$(".subtotal").each(function(index , element){
-			total += parseFloat(clearCurrencyFormat(element.innerHTML));
-			prodcutCount++;
-		});
-		if(prodcutCount <  1){
-			showEmptyShoppintCart();
-		}else{
+
+	$.ajax({
+		type: "POST",
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName, csrfValue);
+		}
+	}).done(function(updatedSubtoal) {
+
+		updateSubtotal(updatedSubtoal, productId);
+		updateTotal();
+        totalCartItem();
+        
+	}).fail(function() {
+		showErrorModal("Error while  updated product quantity")
+	});
+}
+
+
+
+function updateSubtotal(updatedSubtoal, productId) {
+
+	$("#subtotal" + productId).text(formatCurrency(updatedSubtoal));
+}
+
+function updateTotal() {
+
+	var total = 0.0;
+	prodcutCount = 0;
+	$(".subtotal").each(function(index, element) {
+		total += parseFloat(clearCurrencyFormat(element.innerHTML));
+		prodcutCount++;
+	});
+	if (prodcutCount < 1) {
+		showEmptyShoppintCart();
+	} else {
 
 		$("#total").text(formatCurrency(total));
-		}
-	
-		
 	}
 
-function showEmptyShoppintCart(){
+
+}
+
+function showEmptyShoppintCart() {
 	$("#sectionTotal").hide();
 	$("#sectionEmptyCartMessage").removeClass("d-none");
-	
+
 }
 
-function formatCurrency(amount){
-	return ($.number(amount ,decimalDigits , decimalSeparator , thousandsSeparator));
+function formatCurrency(amount) {
+	return ($.number(amount, decimalDigits, decimalSeparator, thousandsSeparator));
 }
-function clearCurrencyFormat(numberString){
-	result = numberString.replaceAll(thousandsSeparator , "");
-	return result.replaceAll(decimalSeparator ,".");
+function clearCurrencyFormat(numberString) {
+	result = numberString.replaceAll(thousandsSeparator, "");
+	return result.replaceAll(decimalSeparator, ".");
 }
 
-function totalCartItem(){
-	
-	  url = contextPath + "cart/totalItems";
 
-		
-		$.ajax({
-			type: "GET",
-			url: url,
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader(csrfHeaderName, csrfValue);
-			}
-		}).done(function(response) {
+function totalCartItem() {
 
-		$("#cartItems").text(response);
-	
-		
-		}).fail(function() {
-			showErrorModal("Error while  updateding cart items")
-		});
+	url = contextPath + "cart/totalItems";
+
+
+	$.ajax({
+		type: "GET",
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName, csrfValue);
+		}
+	}).done(function(response) {
+		if(response == 'null'){
+		cartItem.text("");
+ }else{
+	 cartItem.text(response);
+ }
+	}).fail(function() {
+		showErrorModal("Error while  updateding cart items");
+	});
 }

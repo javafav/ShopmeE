@@ -114,13 +114,13 @@ public class CartItemRepositoryTests {
 	
 	@Test
 	public void testTotalCartITem() {
-		Integer customerId = 42;
+		Integer customerId = 3;
 		
 		
 		Integer totalCartItem = repo.getTotalCartItem(customerId);
 		
 		//CartItem item = repo.findByCustomerAndProduct(new Customer(customerId), new Product(productId));
 		
-		assertThat(totalCartItem).isEqualTo(18);
+		assertThat(totalCartItem).isEqualTo(1);
 	}
 }

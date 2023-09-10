@@ -72,15 +72,16 @@ public class ShoppingCartRestController {
 	return "You must login to remove product.";  
    }
    }
+   
    @GetMapping("/cart/totalItems")
    public String getTotalCartItem(HttpServletRequest request) {
 		
 		try {
 			Customer customer = getAuthenticatedCustomer(request); 
 			Integer totalCartItem = cartService.totalCartItem(customer);
-	  
+			System.out.println(("Total cartItems: " + totalCartItem));
 	       return String.valueOf(totalCartItem);
-
+ 
 	   
    }  catch (CustomerNotFoundException e) {
 	return "You must login to remove product.";  
