@@ -126,11 +126,11 @@
                 </div>
 
 	
-	<script th:src="@{/js/common_list.js}"></script>
+	
 	<script type="text/javascript">
 
-moduleURL = "[[@{/categories}]]";
-MAX_FILE_SIZE = 102400 //100 kb
+       moduleURL = "[[@{/categories}]]";
+       MAX_FILE_SIZE = 102400;
 
 $(document).ready(function (){
 	
@@ -146,5 +146,7 @@ $(document).ready(function (){
 
 
 </script>
+<script th:src="@{/js/common_list.js}"></script>
+<script th:src="@{/js/common_form.js}"></script>
 </body>
 </html>

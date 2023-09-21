@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.shopme.common.Constants;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.IdBasedEntity;
@@ -23,7 +24,7 @@ import com.shopme.common.entity.IdBasedEntity;
 
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 public class Product  extends IdBasedEntity {
 
 
@@ -273,7 +274,7 @@ public class Product  extends IdBasedEntity {
 		
 		if(mainImage == null || mainImage.isEmpty()) return "/images/image-thumbnail.png";
 		
-		return "/products-images/" + this.id + "/" + this.mainImage;
+		return Constants.S3_BASE_URI +"/products-images/" + this.id + "/" + this.mainImage;
 		
 	}
 	
@@ -288,7 +289,7 @@ public class Product  extends IdBasedEntity {
 	public String getImagePath() {
 		if(images.isEmpty()) return "/images/image-thumbnail.png";
 		
-		return "/images/image-thumbnail.png";
+		return Constants.S3_BASE_URI + "/images/image-thumbnail.png";
 	}
 	
 	public void addDetails(String name ,String value ) {

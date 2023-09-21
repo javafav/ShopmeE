@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import com.shopme.common.entity.IdBasedEntity;
 
 @Entity
-@Table(name= "product_details")
+@Table(name= "product_detail")
 public class ProductDetail  extends IdBasedEntity {
 
 

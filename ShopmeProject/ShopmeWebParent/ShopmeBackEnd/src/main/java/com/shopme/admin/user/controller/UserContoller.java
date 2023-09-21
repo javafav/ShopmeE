@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shopme.admin.AmazonS3Util;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.paging.PagingAndSortingParam;
@@ -42,7 +43,7 @@ public class UserContoller {
 	@GetMapping("/users")
 	public String listFirstPage() {
 
-	    return "redirect:/users/page/1?sortField=firstName&sortDir=asc";
+		return "redirect:/users/page/1?sortField=firstName&sortDir=asc";
 	}
 
 //	@GetMapping("/users")
@@ -57,14 +58,13 @@ public class UserContoller {
 
 	@GetMapping("users/page/{pageNum}")
 
-	public String listByPage(@PagingAndSortingParam(listName = "listUsers" ,moduleURL = "/users") PagingAndSortingHelper helper
-			,@PathVariable int pageNum,
-			Model model
-			) {
+	public String listByPage(
+			@PagingAndSortingParam(listName = "listUsers", moduleURL = "/users") PagingAndSortingHelper helper,
+			@PathVariable int pageNum, Model model) {
 //		System.out.println("sortField" + sortField);
 //		System.out.println("sortDir)" + sortDir);
 		service.listByPageNum(pageNum, helper);
-	
+
 		return "users/users";
 
 	}
@@ -92,8 +92,8 @@ public class UserContoller {
 
 			String uploadDir = "user-photos/" + savedUser.getId();
 
-			FileUploadUtil.cleanDir(uploadDir);
-			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+			AmazonS3Util.removeFolder(uploadDir);
+			AmazonS3Util.uploadFile(uploadDir, fileName, multipartFile.getInputStream());
 
 		} else {
 			if (user.getPhotos().isEmpty())
@@ -102,12 +102,12 @@ public class UserContoller {
 		}
 
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully.");
-return getAffectedOrUpdateUserURL(user);
+		return getAffectedOrUpdateUserURL(user);
 	}
 
 	private String getAffectedOrUpdateUserURL(User user) {
 		String firstPartofEmail = user.getEmail().split("@")[0];
-		return "redirect:/users/page/1?sortField=firstName&sortDir=asc&keyword="+firstPartofEmail;
+		return "redirect:/users/page/1?sortField=firstName&sortDir=asc&keyword=" + firstPartofEmail;
 	}
 
 	@GetMapping("/users/edit/{id}")
@@ -141,6 +141,10 @@ return getAffectedOrUpdateUserURL(user);
 		try {
 			user = service.getUserById(id);
 			service.deleteUser(user);
+			String userPhotosDir = "user-photos/" + id;
+			AmazonS3Util.removeFolder(userPhotosDir);
+			
+			
 			redirectAttributes.addFlashAttribute("message",
 					"User:  " + user.getFirstName() + " ( with ID :" + user.getId() + " ) has deleted successfully");
 			return "redirect:/users";
@@ -165,23 +169,26 @@ return getAffectedOrUpdateUserURL(user);
 		return "redirect:/users";
 
 	}
+
 	@GetMapping("/users/export/csv")
 	public void expoertToCSV(HttpServletResponse response) throws IOException {
-	    List<User> listUsers = service.listAll();
-		 UserCsvExporter exporter = new UserCsvExporter ();
-		
+		List<User> listUsers = service.listAll();
+		UserCsvExporter exporter = new UserCsvExporter();
+
 		exporter.export(listUsers, response);
 	}
+
 	@GetMapping("/users/export/excel")
 	public void expoertToExcel(HttpServletResponse response) throws IOException {
-	    List<User> listUsers = service.listAll();
-		 UserExcelExporter exporter = new UserExcelExporter();
-	exporter.export(listUsers, response);
+		List<User> listUsers = service.listAll();
+		UserExcelExporter exporter = new UserExcelExporter();
+		exporter.export(listUsers, response);
 	}
+
 	@GetMapping("/users/export/pdf")
 	public void expoertTozDF(HttpServletResponse response) throws IOException {
-	    List<User> listUsers = service.listAll();
-	    UserExporterPdf exporter = new UserExporterPdf();
-	    exporter.export(listUsers, response);
-}
+		List<User> listUsers = service.listAll();
+		UserExporterPdf exporter = new UserExporterPdf();
+		exporter.export(listUsers, response);
+	}
 }

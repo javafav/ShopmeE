@@ -100,8 +100,8 @@ public class ProductController {
 
 		Product savedProduct = productService.save(product);
 
-		ProductSaveHelper.saveProductImages(savedProduct, mainIamgeMultipartFile, extraImageMultipartFile);
-		ProductSaveHelper.deleteExtraImagesWereRemovedOnForm(product);
+		ProductSaveHelper.saveUploadedImages(mainIamgeMultipartFile, extraImageMultipartFile, savedProduct);
+		ProductSaveHelper.deleteExtraImagesWeredRemovedOnForm(savedProduct);
 		ra.addFlashAttribute("message", "The product has been saved succsfully.");
 		return "redirect:/products";
 

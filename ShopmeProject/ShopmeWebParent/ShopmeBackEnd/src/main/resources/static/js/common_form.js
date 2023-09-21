@@ -6,14 +6,18 @@ $(document).ready(function() {
 		window.location = moduleURL;
 
 
-		$("#fileImage").change(function() {
+	
+		
+		});
+			$("#fileImage").change(function() {
 			if (!checkFileSize(this)) {
 
 				return
 			}
 			showImageThumbnail(this);
-		});
 	});
+	
+		
 });
 
 function checkFileSize(fileInput) {
