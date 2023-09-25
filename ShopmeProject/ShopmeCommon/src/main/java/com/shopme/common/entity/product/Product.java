@@ -29,10 +29,10 @@ public class Product  extends IdBasedEntity {
 
 
 	
-	@Column(nullable = false , length = 256 , unique = true)
+	@Column(nullable = false , length = 255 , unique = true)
 	private String name;
 	
-	@Column(nullable = false , length = 256 , unique = true)
+	@Column(nullable = false , length = 255 , unique = true)
 	private String alias;
 	
 	@Column(nullable = false , length = 512 , name = "short_description")

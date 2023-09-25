@@ -4,13 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.shopme</groupId>
-		<artifactId>ShopmeWebParent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath /> <!-- lookup parent from repository -->
+	<artifactId>ShopmeWebParent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
 	</parent>
-	<artifactId>ShopmeBackEnd</artifactId>
-	<name>ShopmeBackEnd</name>
-	<description>Shopme Admin Project</description>
+		
+	<artifactId>ShopmeBackend</artifactId>
+	<name>ShopmeBackend</name>
+	<description>Backend for Shopme</description>
+	
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -50,22 +52,24 @@
 			<artifactId>spring-security-test</artifactId>
 			
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.github.librepdf</groupId>
 			<artifactId>openpdf</artifactId>
 			<version>1.3.30</version>
 			
 		</dependency>
-		<dependency>
+	<dependency>
     <groupId>mysql</groupId>
     <artifactId>mysql-connector-java</artifactId>
     <scope>runtime</scope>
    
 </dependency>
+	<dependency>
+		<groupId>com.shopme</groupId>
+		<artifactId>ShopmeCommon</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
 	</dependencies>
 		
 		
